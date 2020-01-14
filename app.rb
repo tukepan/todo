@@ -73,7 +73,6 @@ post '/tasks' do
   list = List.find(params[:list])
 
   if Date.valid_date?(date[0].to_i, date[1].to_i, date[2].to_i)
-    binding.pry
     current_user.tasks.create(title: params[:title],
     due_date: Date.parse(params[:due_date]), list_id: list.id)
     redirect '/'
@@ -128,4 +127,9 @@ get '/tasks/done' do
   @lists = List.all
   @tasks = current_user.tasks.due_over
   erb :index
+end
+
+get '/tasks/:id/edit' do
+  @task = Task.find(params[:id])
+  erb :edit
 end
